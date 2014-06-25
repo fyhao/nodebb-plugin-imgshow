@@ -1,0 +1,28 @@
+{
+  "name": "nodebb-plugin-imgshow",
+  "version": "0.0.1",
+  "description": "A Plugin that let's users embed multimedia content in a post",
+  "main": "library.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "imgshow"
+  ],
+  "author": {
+    "name": "fyhao",
+    "email": "fyhao1@gmail.com"
+  },
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "unirest": "~0.2.7"
+  },
+  "peerDependencies": {
+  },
+  "readme": "# NodeBB Plugin Imgshow\r\n\r\nA Plugin that let's users embed multimedia content in a post\r\n\r\n## Installation\r\n\r\n    npm install nodebb-plugin-imgshow\r\n\r\n\r\n\r\n",
+  "readmeFilename": "README.md",
+  "_id": "nodebb-plugin-imgshow@0.0.1",
+  "_from": "nodebb-plugin-imgshow@0.0.1"
+}
