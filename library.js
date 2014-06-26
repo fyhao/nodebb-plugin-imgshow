@@ -26,9 +26,11 @@ var replace = function(postContent, callback) {
     var imgshow = function(regex, template) {
         while(postContent.search(regex) >= 0) {
             count++;
-            postContent = postContent.replace(regex, function(match, contents){
+            postContent = postContent.replace(regex, function(match, param1, param2){
                 var key = 'imgshow_temp_' + count;
-                var query = template.replace('##', contents);
+                var query = template;
+                if(typeof param1 != 'undefined') query = query.replace('##1', param1);
+                if(typeof param2 != 'undefined') query = query.replace('##2', param2);
                 if(typeof cache[query] != 'undefined') {
                     process.nextTick(function() {
                         var result = cache[query];
@@ -39,11 +41,7 @@ var replace = function(postContent, callback) {
                 else {
                   queryAPI(query, function(result) {
                         cache[query] = result;
-                        //debug('queryapi result: ' + result);
-                        //debug('key: ' + key);
-                        //debug(key + ':before ' + postContent);
                         postContent = postContent.replace(key, result);
-                        //debug(key + ':after ' + postContent);
                         stepFunc();
                     })  
                 }
@@ -53,13 +51,19 @@ var replace = function(postContent, callback) {
         }
     }
     
-    imgshow(/\[imgshow (.+?)\]/, '##');
-    imgshow(/\[youtube (.+?)\]/, 'q:name=youtube,k=##');
-    imgshow(/\[vimeo (.+?)\]/, 'q:name=vimeo,k=##');
-    imgshow(/\[fbvideo (.+?)\]/, 'q:name=fbvideo,code=##');
-    imgshow(/\[bliptv (.+?)\]/, 'q:name=bliptv,k=##');
-    imgshow(/\[dailymotion (.+?)\]/, 'q:name=dailymotion,code=##');
-    imgshow(/\[qrcode (.+?)\]/, 'q:name=qrcode,text=##');
+    imgshow(/\[imgshow (.+?)\]/, '##1');
+    imgshow(/\[youtube (.+?)\]/, 'q:name=youtube,k=##1');
+    imgshow(/\[vimeo (.+?)\]/, 'q:name=vimeo,k=##1');
+    imgshow(/\[fbvideo (.+?)\]/, 'q:name=fbvideo,code=##1');
+    imgshow(/\[bliptv (.+?)\]/, 'q:name=bliptv,k=##1');
+    imgshow(/\[dailymotion (.+?)\]/, 'q:name=dailymotion,code=##1');
+    imgshow(/\[qrcode (.+?)\]/, 'q:name=qrcode,text=##1');
+    imgshow(/\[flash (.+?)\]/, 'q:name=flash,url=##1');
+    imgshow(/\[gdoc (.+?)\]/, 'q:name=gdoc,url=##1');
+    imgshow(/\[slideshare (.+?)\]/, 'q:name=slideshare,code=##1');
+    imgshow(/\[gmap ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=gmap,lat=##1,lng=##2');
+    imgshow(/\[bingmap ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=bingmap,lat=##1,lng=##2');
+    imgshow(/\[weather ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=weather,lat=##1,lng=##2,display=label');
     stepFunc();
 }
 
