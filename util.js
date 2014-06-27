@@ -94,7 +94,7 @@ var lib = {
         return {
             load : function(query, callback) {
                 var unirest = require('unirest');
-        	    var Request = unirest.get("https://fyhao-imgshow-platform.p.mashape.com/?k=" + encodeURIComponent(query) + "&api=1")
+        	    var Request = unirest.get("https://imgshow-platform.p.mashape.com/?k=" + encodeURIComponent(query) + "&api=1")
                   .headers({ 
                     "X-Mashape-Authorization": "i5deY4OELqM0XZp3NioVjsjhhi2nbTKF"
                   })
