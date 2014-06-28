@@ -9,6 +9,9 @@
             "hook": "filter:post.parse"
             , "method": "parse"
             , "callbacked": true
+            , "priority": 5
         }
+        ,
+        { "hook": "filter:composer.help", "method": "renderHelp" }
     ]
 }

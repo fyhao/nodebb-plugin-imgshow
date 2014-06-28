@@ -1,8 +1,15 @@
 {
   "name": "nodebb-plugin-imgshow",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Plugin that let's users embed multimedia content in a post",
   "main": "library.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fyhao/nodebb-plugin-imgshow"
+  },
+  "bugs": {
+    "url": "https://github.com/fyhao/nodebb-plugin-imgshow/issues"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

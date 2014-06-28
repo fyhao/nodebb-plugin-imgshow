@@ -6,6 +6,11 @@ module.exports.parse = function(postContent, callback) {
     
 };
 
+module.exports.renderHelp = function(helpContent, callback) {
+    helpContent += '<p>Imgshow Help</p>';
+    callback(null, helpContent);
+}
+
 var cache = {};
 setInterval(function() {
     cache = {};
