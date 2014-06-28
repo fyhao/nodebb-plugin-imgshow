@@ -5,12 +5,16 @@
     , "url": "https://github.com/fyhao/nodebb-plugin-imgshow"
     , "library": "./library.js"
     , "templates": "./public/templates"
+    , "staticDir": "./static"
+    , "scripts": [
+		"static/imgshow.js"
+	]
     , "hooks": [
         {
             "hook": "filter:post.parse"
             , "method": "parse"
             , "callbacked": true
-            , "priority": 5
+            , "priority": 6
         }
         ,
         { "hook": "filter:composer.help", "method": "renderHelp" }

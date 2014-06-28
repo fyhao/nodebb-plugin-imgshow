@@ -22,16 +22,18 @@ module.exports.onLoad = function(app, middleware, controllers) {
 	app.get('/help/plugins/imgshow', render);
 };
 
+
+module.exports.renderHelp = function(helpContent, callback) {
+    helpContent += '<p>Imgshow lets users post media content, such as Youtube, Facebook Video, Weather, please visit <a href="/help/plugins/imgshow" target="_blank">Online Help Documentation</a> for more information.</p>';
+    callback(null, helpContent);
+}
+
+
 module.exports.parse = function(postContent, callback) {
     replace(postContent, function(result) {
         callback(null, result);
     });
 };
-
-module.exports.renderHelp = function(helpContent, callback) {
-    helpContent += '<p>Imgshow Help</p>';
-    callback(null, helpContent);
-}
 
 var cache = {};
 setInterval(function() {
