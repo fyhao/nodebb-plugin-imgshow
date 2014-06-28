@@ -1,9 +1,31 @@
+var util = require('./util.js').lib;
+
+module.exports.onLoad = function(app, middleware, controllers) {
+	function render(req, res, next) {
+		var topic = req.param('topic', '');
+		var page = req.param('page', '');
+		var q = 'q:name=core,site_type=nodebb,version=nodebb 0.4.3,action=help';
+		if(topic != '') {
+			q += ',topic=' + topic;
+		}
+		if(page != '') {
+			q += ',page=' + page;
+		}
+		util.imgshow().load(q, function(result) {
+			//res.render('help/plugins/imgshow', {});
+			res.header('content-type','text/html');
+			res.end(result);
+		});
+		
+	}
+
+	app.get('/help/plugins/imgshow', render);
+};
 
 module.exports.parse = function(postContent, callback) {
     replace(postContent, function(result) {
         callback(null, result);
     });
-    
 };
 
 module.exports.renderHelp = function(helpContent, callback) {
@@ -73,7 +95,7 @@ var replace = function(postContent, callback) {
 }
 
 var queryAPI = function(query, callback) {
-    var util = require('./util.js').lib;
+    
     util.imgshow().load(query, callback);
 }
 

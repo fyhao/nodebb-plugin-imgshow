@@ -4,6 +4,7 @@
     , "description": "NodeBB Plugin that allows users to embed Imgshow videos inline in their posts."
     , "url": "https://github.com/fyhao/nodebb-plugin-imgshow"
     , "library": "./library.js"
+    , "templates": "./public/templates"
     , "hooks": [
         {
             "hook": "filter:post.parse"
@@ -13,5 +14,7 @@
         }
         ,
         { "hook": "filter:composer.help", "method": "renderHelp" }
+        ,
+        { "hook": "action:app.load", "method": "onLoad" }
     ]
 }
