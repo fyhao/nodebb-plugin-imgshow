@@ -2,6 +2,7 @@ var util = require('./util.js').lib;
 
 module.exports.onLoad = function(app, middleware, controllers) {
 	function render(req, res, next) {
+		// TODO to get nodebb version automatically
 		var topic = req.param('topic', '');
 		var page = req.param('page', '');
 		var q = 'q:name=core,site_type=nodebb,version=nodebb 0.4.3,action=help';
@@ -53,6 +54,7 @@ var replace = function(postContent, callback) {
         }
     }
     var imgshow = function(regex, template) {
+    	// TODO refer async.parallel for below code
         while(postContent.search(regex) >= 0) {
             count++;
             postContent = postContent.replace(regex, function(match, param1, param2){
