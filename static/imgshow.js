@@ -17,11 +17,43 @@ $('document').ready(function() {
 						if(item.params && item.params.length) {
 							for(var i = 0; i < item.params.length; i++) {
 								var param = item.params[i];
-								var formControl = {id:param.name,label:param.label,type:'text'};
+								var label = param.label;
+								if(param.required && param.required == '1') {
+									label += ' (*)';
+								}
+								var formControl = {id:param.name,label:label,type:'text'};
 								options.formControls.push(formControl);
 							}
 						}
 						options.buttons = [];
+						if(typeof(item.help) != 'undefined') {
+							options.buttons.push(
+								{
+									id : 'btn-help', title : 'Help(FAQ)', func : function(e) {
+										// open in new tab or window
+										var arr = item.help.split(",");
+										var url = '/plugins/imgshow/help?';
+										var url_params = {};
+										if(arr.length > 0) {
+											url_params['topic'] = arr[0];
+										}
+										if(arr.length > 1) {
+											url_params['page'] = arr[1];
+										}
+										var splitter = '';
+										for(var k in url_params) {
+											var v = url_params[k];
+											url += splitter;
+											url += k + '=' + v;
+											splitter = '&';
+										}
+										
+										var win = window.open(url, '_blank');
+  										win.focus();
+									}
+								}
+							);
+						}
 						options.buttons.push(
 							{
 								id : 'btn-insert', title : 'Insert', func : function(e) {
@@ -31,12 +63,24 @@ $('document').ready(function() {
 									if(item.params && item.params.length) {
 										for(var i = 0; i < item.params.length; i++) {
 											var param = item.params[i];
-											query += ',' + param.name + '=' + formControls[param.name].val();
+											var val = formControls[param.name].val().trim();
+											if(val == '') {
+												if(param.required && param.required == '1') {
+													// TODO App.alert
+													alert(param.label + ' is required');
+													return;
+												}
+												else {
+													continue;
+												}
+											} 
+											query += ',' + param.name + '=' + val;
 										}
 									}
 									if(confirm('Confirm insert [imgshow ' + query + ']?')) {
 										controls.insertIntoTextarea(textarea, "[imgshow " + query + "]");
 										$(itemMenu).modal('hide');
+										$(mainMenu).modal('hide')
 									}
 								}
 							}
@@ -47,7 +91,7 @@ $('document').ready(function() {
 				}	
 				
 				var options = {};
-				options.headerTitle = 'Embed Menu 4 (' + data.results.length + ')';
+				options.headerTitle = 'Imgshow Media Embed Menu (' + data.results.length + ')';
 				
 				if(data.results && data.results.length) {
 					options.buttons = [];
