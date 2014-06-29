@@ -8,7 +8,3 @@ A Plugin that let's users embed multimedia content in a post...
 
 
 
-=====================
-nodebb-plugin-imgshow
-=====================
-
