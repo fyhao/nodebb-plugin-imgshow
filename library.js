@@ -13,19 +13,31 @@ module.exports.onLoad = function(app, middleware, controllers) {
 			q += ',page=' + page;
 		}
 		util.imgshow().load(q, function(result) {
-			//res.render('help/plugins/imgshow', {});
 			res.header('content-type','text/html');
 			res.end(result);
 		});
 		
 	}
 
-	app.get('/help/plugins/imgshow', render);
+	app.get('/plugins/imgshow/help', render);
+	var servicesResult = null;
+	app.get('/plugins/imgshow/getservices', function(req, res) {
+		if(servicesResult != null) {
+			res.header('content-type', 'text/json');
+			res.end(servicesResult);
+		} else {
+			util.imgshow().load('q:name=core,action=structure,format=json,language=en', function(result) {
+				servicesResult = result;
+				res.header('content-type', 'text/json');
+				res.end(servicesResult);
+			})
+		}
+	})
 };
 
 
 module.exports.renderHelp = function(helpContent, callback) {
-    helpContent += '<p>Imgshow lets users post media content, such as Youtube, Facebook Video, Weather, please visit <a href="/help/plugins/imgshow" target="_blank">Online Help Documentation</a> for more information.</p>';
+    helpContent += '<p>Imgshow lets users post media content, such as Youtube, Facebook Video, Weather, please visit <a href="/plugins/imgshow/help" target="_blank">Online Help Documentation</a> for more information.</p>';
     callback(null, helpContent);
 }
 
@@ -39,7 +51,7 @@ module.exports.parse = function(postContent, callback) {
 var cache = {};
 setInterval(function() {
     cache = {};
-}, 60000 * 5); 
+}, 60000 * 15); 
 // adjust the value above based on your environment. set too high then the cache may very large when you had high traffic or high number of queries.
 // set too low then it may introduce more traffic to API Server that may bring down it. so be fair. adjust it.
 
@@ -62,7 +74,9 @@ var replace = function(postContent, callback) {
                 var query = template;
                 if(typeof param1 != 'undefined') query = query.replace('##1', param1);
                 if(typeof param2 != 'undefined') query = query.replace('##2', param2);
+                
                 if(typeof cache[query] != 'undefined') {
+                	debug("imgshow query cache:" + query);
                     process.nextTick(function() {
                         var result = cache[query];
                         postContent = postContent.replace(key, result);
@@ -70,6 +84,7 @@ var replace = function(postContent, callback) {
                     })
                 }
                 else {
+                  debug("imgshow query api:" + query);
                   queryAPI(query, function(result) {
                         cache[query] = result;
                         postContent = postContent.replace(key, result);
@@ -99,7 +114,6 @@ var replace = function(postContent, callback) {
 }
 
 var queryAPI = function(query, callback) {
-    
     util.imgshow().load(query, callback);
 }
 
