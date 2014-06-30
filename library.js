@@ -4,7 +4,6 @@ module.exports.onLoad = function(app, middleware, controllers) {
 
 
 	function render(req, res, next) {
-		// TODO to get nodebb version automatically
 		var topic = req.param('topic', '');
 		var page = req.param('page', '');
 		var q = 'q:name=core,site_type=nodebb,version=nodebb ' + nconf.version + ',action=help';
@@ -123,5 +122,5 @@ var queryAPI = function(query, callback) {
 }
 
 var debug = function(message) {
-    console.log('DEBUG:' + message);
+    //console.log('DEBUG:' + message);
 }
