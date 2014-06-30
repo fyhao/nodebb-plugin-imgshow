@@ -1,11 +1,6 @@
 var util = require('./util.js').lib;
-
+var nconf = module.parent.require('nconf');
 module.exports.onLoad = function(app, middleware, controllers) {
-
-
-	var nconf = module.parent.require('nconf');
-	console.log('version:'+nconf.version);
-	console.log('url:'+nconf.get('url'));
 
 
 	function render(req, res, next) {
