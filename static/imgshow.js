@@ -66,8 +66,9 @@ $('document').ready(function() {
 											var val = formControls[param.name].val().trim();
 											if(val == '') {
 												if(param.required && param.required == '1') {
-													// TODO App.alert
-													alert(param.label + ' is required');
+													
+													warning(param.label + ' is required');
+													
 													return;
 												}
 												else {
@@ -111,51 +112,10 @@ $('document').ready(function() {
 			
 		})
 		
-		/*
-		var modalForm = createModal({
-			headerTitle : 'Youtube',
-			formControls : [
-				{
-					id : 'k', label : 'Keyword', type : 'text'
-				}
-			],
-			buttons : [
-				{
-					id : 'close-button', title : 'Close', dismiss:true, func : function(e) {
-						var item = e.item;
-						var formControls = e.formControls;
-						alert(formControls['k'].val())
-					}
-				}
-				,
-				{
-					id : 'create-button2', title : 'Add2', func : function(e) {
-						var item = e.item;
-						var formControls = e.formControls;
-						//alert(formControls['k'].val())
-					}
-				}
-			]
-		});
+		var warning = function(message) {
+			alert(message);
+		}
 		
-		$(modalForm).modal();
-		*/
-		//$('<div><p>test</p></div>').modal();
-		/*
-		composer.addButton('fa fa-video-camera', function(textarea, selectionStart, selectionEnd) {
-			var a = prompt('Select youtube video');
-			controls.insertIntoTextarea(textarea, "[youtube " + a + "]")
-			
-			if(selectionStart === selectionEnd){
-				controls.insertIntoTextarea(textarea, ">! Spoiler");
-				controls.updateTextareaSelection(textarea, selectionStart + 3, selectionStart + 12);
-			} else {
-				controls.wrapSelectionInTextareaWith(textarea, '>! ', '');
-				controls.updateTextareaSelection(textarea, selectionStart + 3, selectionEnd + 3);
-			}
-			
-		});
-		*/
 	});
 	
 	
