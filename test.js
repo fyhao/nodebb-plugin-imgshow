@@ -9,3 +9,6 @@ lib.parse('test [gmap -1.23,4.567]', function(err, result) {
     console.log('Result');
     console.log(result);
 });
+
+
+

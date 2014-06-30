@@ -90,13 +90,20 @@ var lib = {
 	,
 	
 	imgshow : function(request) {
-	
+	 
+	 var host = '';
+	 if(typeof(module) != 'undefined' && typeof(module.parent) != 'undefined') {
+		var nconf = module.parent.require('nconf');
+		host = nconf.get('url');
+	       console.log('imgshow nconf host:' +host);
+        }
         return {
             load : function(query, callback) {
                 var unirest = require('unirest');
         	    var Request = unirest.get("https://imgshow-platform.p.mashape.com/?k=" + encodeURIComponent(query) + "&api=1")
                   .headers({ 
-                    "X-Mashape-Authorization": "i5deY4OELqM0XZp3NioVjsjhhi2nbTKF"
+                    "X-Mashape-Authorization": "i5deY4OELqM0XZp3NioVjsjhhi2nbTKF",
+			"SERVER_HOST" : host
                   })
                   .end(function (response) {
                     callback(response.body);
