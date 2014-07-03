@@ -95,7 +95,7 @@ var lib = {
 	 if(typeof(module) != 'undefined' && typeof(module.parent) != 'undefined') {
 		var nconf = module.parent.require('nconf');
 		host = nconf.get('url');
-	       console.log('imgshow nconf host:' +host);
+	       //console.log('imgshow nconf host:' +host);
         }
         return {
             load : function(query, callback) {

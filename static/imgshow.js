@@ -1,10 +1,13 @@
 // composer add on
 $('document').ready(function() {
-	// TODO: create custom button
-	
+	// TODO: implement nconf url into plugin/help url
 	require(['composer', 'composer/controls'], function(composer, controls) {
 		imgshow_services_ready(function(data) {
 			composer.addButton('fa fa-video-camera', function(textarea, selectionStart, selectionEnd) {
+				
+				var showMapSelectView = function(locationCallback) {
+					// TODO show map select view, pin point, and then callback({lat,lng})
+				}
 				
 				var showEmbedMenu = function(item) {
 					return function(e) {
@@ -26,6 +29,17 @@ $('document').ready(function() {
 							}
 						}
 						options.buttons = [];
+						if(typeof(item.geo) != 'undefined' && item.geo == '1') {
+							options.buttons.push({
+								id : 'btn-geo', title : 'Select via Map', func : function(e) {
+									showMapSelectView(function(location) {
+										e.formControls['lat'].val(location.lat);
+										e.formControls['lng'].val(location.lng);
+									});
+								}
+							});
+						}
+						
 						if(typeof(item.help) != 'undefined') {
 							options.buttons.push(
 								{
