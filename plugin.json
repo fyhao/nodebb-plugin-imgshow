@@ -10,15 +10,12 @@
 		"static/imgshow.js"
 	]
     , "hooks": [
-        {
-            "hook": "filter:post.parse"
-            , "method": "parse"
-            , "callbacked": true
-            , "priority": 6
+        { "hook": "filter:parse.post"
+        , "method": "parse"
         }
         ,
         { "hook": "filter:composer.help", "method": "renderHelp" }
         ,
-        { "hook": "action:app.load", "method": "onLoad" }
+        { "hook": "static:app.load", "method": "onLoad" }
     ]
 }

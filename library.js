@@ -1,7 +1,7 @@
 var util = require('./util.js').lib;
 var nconf = module.parent.require('nconf');
 var fs = require('fs');
-module.exports.onLoad = function(app, middleware, controllers) {
+module.exports.onLoad = function(data, callback) {
 
 
 	function render(req, res, next) {
@@ -21,9 +21,9 @@ module.exports.onLoad = function(app, middleware, controllers) {
 		
 	}
 
-	app.get('/plugin/imgshow/help', render);
+	data.router.get('/plugin/imgshow/help', render);
 	var servicesResult = null;
-	app.get('/plugin/imgshow/getservices', function(req, res) {
+	data.router.get('/plugin/imgshow/getservices', function(req, res) {
 		if(servicesResult != null) {
 			res.header('content-type', 'text/json');
 			res.end(servicesResult);
@@ -36,6 +36,7 @@ module.exports.onLoad = function(app, middleware, controllers) {
 		}
 	})
 
+    callback();
 };
 
 
@@ -45,9 +46,11 @@ module.exports.renderHelp = function(helpContent, callback) {
 }
 
 
-module.exports.parse = function(postContent, callback) {
-    replace(postContent, function(result) {
-        callback(null, result);
+module.exports.parse = function(data, callback) {
+    replace(data.postData.content, function(result) {
+        data.postData.content = result;
+
+        callback(null, data);
     });
 };
 

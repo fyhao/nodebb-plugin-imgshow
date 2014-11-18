@@ -93,7 +93,7 @@ var lib = {
 	 
 	 var host = '';
 	 if(typeof(module) != 'undefined' && typeof(module.parent) != 'undefined') {
-		var nconf = module.parent.require('nconf');
+		var nconf = module.parent.parent.require('nconf');
 		host = nconf.get('url');
 	       //console.log('imgshow nconf host:' +host);
         }
