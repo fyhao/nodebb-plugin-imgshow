@@ -1,5 +1,6 @@
 var util = require('./util.js').lib;
 var nconf = module.parent.require('nconf');
+var fs = require('fs');
 module.exports.onLoad = function(app, middleware, controllers) {
 
 
@@ -20,14 +21,14 @@ module.exports.onLoad = function(app, middleware, controllers) {
 		
 	}
 
-	app.get('/plugins/imgshow/help', render);
+	app.get('/plugin/imgshow/help', render);
 	var servicesResult = null;
-	app.get('/plugins/imgshow/getservices', function(req, res) {
+	app.get('/plugin/imgshow/getservices', function(req, res) {
 		if(servicesResult != null) {
 			res.header('content-type', 'text/json');
 			res.end(servicesResult);
 		} else {
-			util.imgshow().load('q:name=core,action=structure,format=json,language=en', function(result) {
+			util.imgshow().load('q:name=core,action=structure,format=json,language=en,version=nodebb ' + nconf.version, function(result) {
 				servicesResult = result;
 				res.header('content-type', 'text/json');
 				res.end(servicesResult);
@@ -35,13 +36,11 @@ module.exports.onLoad = function(app, middleware, controllers) {
 		}
 	})
 
-
-
 };
 
 
 module.exports.renderHelp = function(helpContent, callback) {
-    helpContent += '<p>Imgshow lets users post media content, such as Youtube, Facebook Video, Weather, please visit <a href="/plugins/imgshow/help" target="_blank">Online Help Documentation</a> for more information.</p>';
+    helpContent += '<p>Imgshow lets users post media content, such as Youtube, Facebook Video, Weather, please visit <a href="/plugin/imgshow/help" target="_blank">Online Help Documentation</a> for more information.</p>';
     callback(null, helpContent);
 }
 
@@ -55,7 +54,7 @@ module.exports.parse = function(postContent, callback) {
 var cache = {};
 setInterval(function() {
     cache = {};
-}, 60000 * 15); 
+}, 60000 * 1); 
 // adjust the value above based on your environment. set too high then the cache may very large when you had high traffic or high number of queries.
 // set too low then it may introduce more traffic to API Server that may bring down it. so be fair. adjust it.
 
@@ -107,6 +106,7 @@ var replace = function(postContent, callback) {
     imgshow(/\[fbvideo (.+?)\]/, 'q:name=fbvideo,code=##1');
     imgshow(/\[bliptv (.+?)\]/, 'q:name=bliptv,k=##1');
     imgshow(/\[dailymotion (.+?)\]/, 'q:name=dailymotion,code=##1');
+    imgshow(/\[soundcloud (.+?)\]/, 'q:name=soundcloud,k=##1');
     imgshow(/\[qrcode (.+?)\]/, 'q:name=qrcode,text=##1');
     imgshow(/\[flash (.+?)\]/, 'q:name=flash,url=##1');
     imgshow(/\[gdoc (.+?)\]/, 'q:name=gdoc,url=##1');
@@ -114,6 +114,8 @@ var replace = function(postContent, callback) {
     imgshow(/\[gmap ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=gmap,lat=##1,lng=##2');
     imgshow(/\[bingmap ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=bingmap,lat=##1,lng=##2');
     imgshow(/\[weather ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=weather,lat=##1,lng=##2,display=label');
+    imgshow(/\[psi ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=psi,lat=##1,lng=##2');
+    imgshow(/\[aqi ([0-9.-]+).+?([0-9.-]+)\]/, 'q:name=psi,lat=##1,lng=##2');
     stepFunc();
 }
 

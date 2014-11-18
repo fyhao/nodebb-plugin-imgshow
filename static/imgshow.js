@@ -1,13 +1,12 @@
 // composer add on
 $('document').ready(function() {
+	
 	// TODO: implement nconf url into plugin/help url
 	require(['composer', 'composer/controls'], function(composer, controls) {
+		
 		imgshow_services_ready(function(data) {
+			
 			composer.addButton('fa fa-video-camera', function(textarea, selectionStart, selectionEnd) {
-				
-				var showMapSelectView = function(locationCallback) {
-					// TODO show map select view, pin point, and then callback({lat,lng})
-				}
 				
 				var showEmbedMenu = function(item) {
 					return function(e) {
@@ -29,16 +28,6 @@ $('document').ready(function() {
 							}
 						}
 						options.buttons = [];
-						if(typeof(item.geo) != 'undefined' && item.geo == '1') {
-							options.buttons.push({
-								id : 'btn-geo', title : 'Select via Map', func : function(e) {
-									showMapSelectView(function(location) {
-										e.formControls['lat'].val(location.lat);
-										e.formControls['lng'].val(location.lng);
-									});
-								}
-							});
-						}
 						
 						if(typeof(item.help) != 'undefined') {
 							options.buttons.push(
@@ -46,7 +35,7 @@ $('document').ready(function() {
 									id : 'btn-help', title : 'Help(FAQ)', func : function(e) {
 										// open in new tab or window
 										var arr = item.help.split(",");
-										var url = '/plugins/imgshow/help?';
+										var url = '/plugin/imgshow/help?';
 										var url_params = {};
 										if(arr.length > 0) {
 											url_params['topic'] = arr[0];
@@ -134,7 +123,7 @@ $('document').ready(function() {
 	
 	
 	var imgshow_services_ready = function(callback) {
-		$.getJSON('/plugins/imgshow/getservices', callback);
+		$.getJSON('/plugin/imgshow/getservices', callback);
 	}
 	
 	var createModal = function(opts) {
@@ -149,7 +138,7 @@ $('document').ready(function() {
 				}
 			}
 		];
-		
+		if(typeof opts.customBody == 'undefined') opts.customBody = null;
 		// modalHeader
 		var modalHeader = $('<div />').addClass('modal-header');
 		var dismissBtn = $('<button />').addClass('close')
@@ -199,6 +188,11 @@ $('document').ready(function() {
 				}
 			}
 		}
+		
+		if(opts.customBody != null) {
+			$(opts.customBody).appendTo(modalBody);
+		}
+
 		
 		// modalFooter
 		var modalFooter = $('<div />').addClass('modal-footer');
