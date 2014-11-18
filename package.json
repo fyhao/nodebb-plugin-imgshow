@@ -31,5 +31,8 @@
   "readme": "# NodeBB Plugin Imgshow\r\n\r\nA Plugin that let's users embed multimedia content in a post\r\n\r\n## Installation\r\n\r\n    npm install nodebb-plugin-imgshow\r\n\r\n\r\n\r\n",
   "readmeFilename": "README.md",
   "_id": "nodebb-plugin-imgshow@0.0.1",
-  "_from": "nodebb-plugin-imgshow@0.0.1"
+  "_from": "nodebb-plugin-imgshow@0.0.1",
+  "nbbpm": {
+    "compatibility": "^0.5.0"
+  }
 }
