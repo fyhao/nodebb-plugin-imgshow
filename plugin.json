@@ -5,7 +5,9 @@
     , "url": "https://github.com/fyhao/nodebb-plugin-imgshow"
     , "library": "./library.js"
     , "templates": "./public/templates"
-    , "staticDir": "./static"
+    , "staticDirs": {
+        "imgshow": "static"
+    }
     , "scripts": [
 		"static/imgshow.js"
 	]

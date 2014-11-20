@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-imgshow",
-  "version": "0.1.0",
+  "version": "0.0.11",
   "description": "A Plugin that let's users embed multimedia content in a post",
   "main": "library.js",
   "repository": {

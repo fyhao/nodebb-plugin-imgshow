@@ -97,6 +97,9 @@ var lib = {
 		host = nconf.get('url');
 	       //console.log('imgshow nconf host:' +host);
         }
+        if(host.indexOf('http://') != -1) {
+        	host = host.replace('http://', '');
+        }
         return {
             load : function(query, callback) {
                 var unirest = require('unirest');

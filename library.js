@@ -3,7 +3,7 @@ var nconf = module.parent.require('nconf');
 var fs = require('fs');
 module.exports.onLoad = function(data, callback) {
 
-
+	debug('onload')
 	function render(req, res, next) {
 		var topic = req.param('topic', '');
 		var page = req.param('page', '');
