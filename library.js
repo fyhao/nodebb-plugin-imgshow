@@ -24,11 +24,13 @@ module.exports.onLoad = function(data, callback) {
 	data.router.get('/plugin/imgshow/help', render);
 	var servicesResult = null;
 	data.router.get('/plugin/imgshow/getservices', function(req, res) {
-		if(servicesResult != null) {
+		var forceUpdate = req.param('forceUpdate', '');
+		
+		if(forceUpdate == '' && servicesResult != null) {
 			res.header('content-type', 'text/json');
 			res.end(servicesResult);
 		} else {
-			util.imgshow().load('q:name=core,action=structure,format=json,language=en,version=nodebb ' + nconf.version, function(result) {
+			util.imgshow().load('q:name=core,action=structure,format=json,language=en,version=nodebb ' + nconf.version + ',pluginversion=0.0.12_20150629', function(result) {
 				servicesResult = result;
 				res.header('content-type', 'text/json');
 				res.end(servicesResult);
@@ -57,7 +59,7 @@ module.exports.parse = function(data, callback) {
 var cache = {};
 setInterval(function() {
     cache = {};
-}, 60000 * 1); 
+}, 10000 * 1); 
 // adjust the value above based on your environment. set too high then the cache may very large when you had high traffic or high number of queries.
 // set too low then it may introduce more traffic to API Server that may bring down it. so be fair. adjust it.
 
