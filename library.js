@@ -5,8 +5,8 @@ module.exports.onLoad = function(data, callback) {
 
 	debug('onload')
 	function render(req, res, next) {
-		var topic = req.param('topic', '');
-		var page = req.param('page', '');
+		var topic = req.query['topic'] || '';
+		var page = req.query['page'] || '';
 		var q = 'q:name=core,site_type=nodebb,version=nodebb ' + nconf.version + ',action=help';
 		if(topic != '') {
 			q += ',topic=' + topic;
@@ -24,18 +24,28 @@ module.exports.onLoad = function(data, callback) {
 	data.router.get('/plugin/imgshow/help', render);
 	var servicesResult = null;
 	data.router.get('/plugin/imgshow/getservices', function(req, res) {
-		var forceUpdate = req.param('forceUpdate', '');
+		var forceUpdate = req.query['forceUpdate'] || '';
 		
 		if(forceUpdate == '' && servicesResult != null) {
 			res.header('content-type', 'text/json');
 			res.end(servicesResult);
 		} else {
-			util.imgshow().load('q:name=core,action=structure,format=json,language=en,version=nodebb ' + nconf.version + ',pluginversion=0.0.12_20150629', function(result) {
+			util.imgshow().load('q:name=core,action=structure,format=json,language=en,version=nodebb ' + nconf.version + ',pluginversion=0.0.14_20160706', function(result) {
 				servicesResult = result;
 				res.header('content-type', 'text/json');
 				res.end(servicesResult);
 			})
 		}
+	})
+	data.router.get('/plugin/imgshow/renderquery', function(req, res) {
+		var query = req.query['query'] || '';
+		if(query != '') {
+			util.imgshow().load(query, function(result) {
+				res.json({status:0,content:result});
+			});
+			return;
+		}
+		res.json({status:100});
 	})
 
     callback();
@@ -49,8 +59,9 @@ module.exports.renderHelp = function(helpContent, callback) {
 
 
 module.exports.parse = function(data, callback) {
+	
     replace(data.postData.content, function(result) {
-        data.postData.content = result;
+    	data.postData.content = result;
 
         callback(null, data);
     });
@@ -60,9 +71,6 @@ var cache = {};
 setInterval(function() {
     cache = {};
 }, 10000 * 1); 
-// adjust the value above based on your environment. set too high then the cache may very large when you had high traffic or high number of queries.
-// set too low then it may introduce more traffic to API Server that may bring down it. so be fair. adjust it.
-
 
 var replace = function(postContent, callback) {
     var count = 0;
@@ -129,5 +137,5 @@ var queryAPI = function(query, callback) {
 }
 
 var debug = function(message) {
-    //console.log('DEBUG:' + message);
+    console.log('DEBUG:' + message);
 }
